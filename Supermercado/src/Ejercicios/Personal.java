@@ -1,6 +1,12 @@
 package Ejercicios;
 import Ejercicios.Funciones;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.*;
 
 public class Personal {
@@ -17,6 +23,9 @@ public class Personal {
 		this.apellido = apellido;
 		this.legajo = legajo;
 		this.dni = dni;
+		
+		listaPersonal.add(this);
+		diccionarioPersonal.put(dni, legajo);
 	}
 
 
@@ -62,7 +71,7 @@ public class Personal {
 	public static void crearObjetos()
 	{
 		Personal persona; boolean validLegajo = false, validDni = false;
-		int dni = 0; String nombre, apellido, legajo = "";
+		int dni = 0; String nombre, apellido, legajo = "", contenido = "";
 		Scanner entrada = new Scanner (System.in);
 		System.out.println("Ingrese el dni: ");
 		while(validDni==false) {
@@ -91,8 +100,8 @@ public class Personal {
 		}
 		
 		Personal nuevoPersonal = new Personal(nombre, apellido, legajo, dni);
-		listaPersonal.add(nuevoPersonal);
-	    diccionarioPersonal.put(dni, legajo);
+        contenido = (nombre + "," + apellido + "," + legajo + "," + dni + "\n");
+        Archivos.escribirArchivo("Personal.txt", contenido);
 	}
 	
 	public static String obtenerLegajoPorDNI(int dni) {
@@ -124,6 +133,40 @@ public class Personal {
     	  System.out.println("DNI: " + dni);   	  
       }
 	 
-	
-	
+      public static void crearDesdeArchivos()
+  	{
+  		File miArchivo = new File ("Personal.txt");		
+  		try {
+  			BufferedReader lectura = new BufferedReader(new FileReader(miArchivo));
+  			String contenido = lectura.readLine();
+  			while(contenido != null || contenido == "")
+  			{
+  				String[] strArr = contenido.split(",");
+  				try {
+  					Personal personal = new Personal(strArr[0], strArr[1], strArr[2], Integer.parseInt(strArr[3]));
+  				} catch (Exception e) {
+  					
+  				}
+  				contenido = lectura.readLine();
+  			}
+  			lectura.close();			
+  		}
+  		catch (FileNotFoundException error)
+  		{
+  			System.out.println(error.getMessage());
+  		}
+  		catch (IOException error)
+  		{
+  			System.out.println(error.getMessage());
+  		}		
+  	}
+      
+  	public static void mostrarPersonal()
+  	{
+  		for(Personal elemento : listaPersonal)
+  		{
+  			elemento.mostrar();
+  			System.out.println("--------------------------------------");
+  		}
+  	}
 }

@@ -1,5 +1,10 @@
 package Ejercicios;
 import java.util.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -16,11 +21,11 @@ public class Lacteo extends Producto implements Fecha {
 	
 	public Lacteo(int codigoBarra,  String marca, String descripcion, double precio, int stock,
 			LocalDate fechaFabricacion, LocalDate fechaVencimiento) {
-		super(codigoBarra, marca, descripcion, precio, stock);
+		super(codigoBarra, marca, descripcion, precio, stock,"Lacteo.txt");
 		this.fechaFabricacion = fechaFabricacion;
 		this.fechaVencimiento = fechaVencimiento;
 		setNombreCategoria(Categorias.LACTEOS);
-		setCodigoCategoria(Categorias.LACTEOS.getNumInterno());	
+		setCodigoCategoria(Categorias.LACTEOS.getNumInterno());
 		//agrego al producto a la cola
 		colaLacteos.add(this);
 	}
@@ -28,8 +33,12 @@ public class Lacteo extends Producto implements Fecha {
 	//crear un objeto y lo almaceno en la lista y cola
 	 public static void agregarLacteo(int codigoBarra, String marca, String descripcion, double precio, int stock,
 			LocalDate fechaFabricacion, LocalDate fechaVencimiento) {
+		 	String contenido = "";
 	        Lacteo lacteo = new Lacteo(codigoBarra, marca, descripcion, precio, stock, fechaFabricacion, fechaVencimiento);
-	    }
+	        contenido = (codigoBarra + "," + marca + "," + descripcion + "," + precio + ","
+	        		+ stock + "," + fechaFabricacion + "," + fechaVencimiento + "\n");
+	        Archivos.escribirArchivo("Lacteo.txt", contenido);
+	 }
 	
 	 
 	 public static void reponerProductoEnGondola() {
@@ -64,6 +73,8 @@ public class Lacteo extends Producto implements Fecha {
 		System.out.println(valoresImportantes(2));
 		System.out.println(valoresImportantes(3));
 		System.out.println(valoresImportantes(4));
+		System.out.println(valoresImportantes(5));
+		System.out.println(valoresImportantes(6));
 	}
 	
 
@@ -84,6 +95,12 @@ public class Lacteo extends Producto implements Fecha {
 		case 4: 
 			valores = "Fecha de vencimiento: " + getFechaVencimiento();
 			break;
+		case 5:
+			valores = "Estado: " + diferenciaFechas();
+			break;
+		case 6:
+			valores = "Stock: " + getStock();		
+			break;
 		default:
 			valores= "No se ha seleccionado una opcion correcta";
 			break;
@@ -99,25 +116,27 @@ public class Lacteo extends Producto implements Fecha {
 		}
 		
 
-	public void diferenciaFechas() {
+	public String diferenciaFechas() {
 		LocalDate hoy = LocalDate.now();
+		String cadena = "";
 		int dias = (int) ChronoUnit.DAYS.between(hoy, fechaVencimiento); 		
 		if(dias>10){
-			System.out.println("Producto VIGENTE");
+			cadena = "Producto VIGENTE";
 		}
 		else
 			if(dias>0 && dias<11){
-				System.out.println("Producto pronto a vencer");
+				cadena = "Producto pronto a vencer";
 			}
 			else
 				if(dias==0){
-				System.out.println("Producto VENCE HOY");
+				cadena = "Producto VENCE HOY";
 				}
 			else
 					if(dias<0)
 					{
-						System.out.println("Producto VENCIDO");
+						cadena = "Producto VENCIDO";
 					}
+		return cadena;
 	}
 
 	
@@ -149,7 +168,35 @@ public class Lacteo extends Producto implements Fecha {
 		{
 			System.out.println("Fallo la creacion del Lacteo");
 		}
-		
-		
+	}
+	
+	public static void crearDesdeArchivos()
+	{
+		File miArchivo = new File ("Lacteo.txt");		
+		try {
+			BufferedReader lectura = new BufferedReader(new FileReader(miArchivo));
+			String contenido = lectura.readLine();
+			while(contenido != null || contenido == "")
+			{
+				String[] strArr = contenido.split(",");
+				try {
+					Lacteo lacteo = new Lacteo(Integer.parseInt(strArr[0]), strArr[1], strArr[2], Double.parseDouble(strArr[3]), Integer.parseInt(strArr[4]), LocalDate.parse(strArr[5]), LocalDate.parse(strArr[6]));
+				}
+				catch(Exception e)
+				{
+			
+				}
+				contenido = lectura.readLine();
+			}
+			lectura.close();			
+		}
+		catch (FileNotFoundException error)
+		{
+			System.out.println(error.getMessage());
+		}
+		catch (IOException error)
+		{
+			System.out.println(error.getMessage());
+		}		
 	}
 }

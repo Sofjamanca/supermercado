@@ -1,4 +1,5 @@
 package Ejercicios;
+import java.io.*;
 import java.util.*;
 
 
@@ -13,14 +14,16 @@ public abstract class Producto {
 	private String descripcion;
 	private double precio;
 	private int stock;
+	private String nombreArchivo;
 	
-	public Producto(int codigoBarra, String marca, String descripcion, double precio, int stock)
+	public Producto(int codigoBarra, String marca, String descripcion, double precio, int stock, String nombreArchivo)
 	{
 		this.codigoBarra = codigoBarra;
 		this.marca = marca;
 		this.descripcion = descripcion;
 		this.precio = precio;
 		this.stock = stock;
+		this.nombreArchivo = nombreArchivo;
 		
 		//Agrego este producto a la lista
 		listaProductos.add(this);
@@ -30,7 +33,18 @@ public abstract class Producto {
         return listaProductos;
     }
 	
-
+	private int indiceProducto()
+	{
+		int cont = 0, encontre = -1;
+		for(Producto producto : listaProductos)
+		{
+			if(producto.codigoBarra == codigoBarra && producto.nombreCategoria == nombreCategoria) {
+				encontre = cont;
+			}
+			if(producto.nombreCategoria == nombreCategoria) cont++;
+		}
+		return encontre;
+	}
 	public int getCodigoBarra() {
 		return codigoBarra;
 	}
@@ -180,6 +194,35 @@ public abstract class Producto {
     	}
 	}
 	
+	public static void mostrarProductos()
+	{
+		for(Producto elemento : listaProductos)
+		{
+			elemento.mostrar();
+			System.out.println("--------------------------------------");
+		}
+	}
+	
+	public void modificarStock(int valor, int operacion)
+	{
+		int total = 0;
+		if(operacion == 1)
+		{
+			total = stock + valor;
+		}
+		else{
+			 total = stock - valor;
+			}
+		if (total < 0)
+			{
+				System.out.println("El stock no puede ser menor a 0, por lo tanto, no se ha podido modificar el stock");
+			}
+		else {
+			stock = total;
+			Archivos.modificarArchivo(nombreArchivo, (indiceProducto()+1), 5, Integer.toString(stock));
+		}
+	}
+
 	public abstract void mostrar();
 
 

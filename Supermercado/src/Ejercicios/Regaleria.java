@@ -1,4 +1,9 @@
 package Ejercicios;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -9,7 +14,7 @@ public class Regaleria extends Producto {
 		
 		public Regaleria(int codigoBarra, String marca, String descripcion, double precio, int stock, String materialFabricacion)
 		{
-			super(codigoBarra, marca, descripcion, precio, stock);
+			super(codigoBarra, marca, descripcion, precio, stock, "Regaleria.txt");
 			this.materialFabricacion = materialFabricacion;
 			setNombreCategoria(Categorias.REGALERIA);
 			setCodigoCategoria(Categorias.REGALERIA.getNumInterno());
@@ -19,7 +24,11 @@ public class Regaleria extends Producto {
 		
 		// Método para crear un objeto de regalería
 	    public static void agregarNovedad(int codigoBarra, String marca, String descripcion, double precio, int stock, String materialFabricacion) {
-	        Regaleria novedad = new Regaleria(codigoBarra, marca, descripcion, precio, stock, materialFabricacion);
+	        String contenido = "";
+	    	Regaleria novedad = new Regaleria(codigoBarra, marca, descripcion, precio, stock, materialFabricacion);
+	        contenido = (codigoBarra + "," + marca + "," + descripcion + "," + precio + ","
+	        		+ stock + "," + materialFabricacion + "\n");
+	        Archivos.escribirArchivo("Regaleria.txt", contenido);
 	    }
 	    
 	 // Método para reponer la última novedad en la góndola
@@ -80,7 +89,10 @@ public class Regaleria extends Producto {
 				valores = "Precio: " + getPrecio();
 				break;
 			case 3:
-				valores = "Material de fabricación: " + getmaterialFabricacion();
+				valores = "Material de fabricacion: " + getmaterialFabricacion();
+				break;
+			case 4:
+				valores = "Stock: " + getStock();
 				break;
 			default:
 				valores= "No se ha seleccionado una opcion correcta";
@@ -94,7 +106,35 @@ public class Regaleria extends Producto {
 			System.out.println(valoresImportantes(1));
 			System.out.println(valoresImportantes(2));
 			System.out.println(valoresImportantes(3));
+			System.out.println(valoresImportantes(4));
 		}
 		
+		public static void crearDesdeArchivos()
+		{
+			File miArchivo = new File ("Regaleria.txt");		
+			try {
+				BufferedReader lectura = new BufferedReader(new FileReader(miArchivo));
+				String contenido = lectura.readLine();
+				while(contenido != null)
+				{
+					String[] strArr = contenido.split(",");
+					try {
+						Regaleria regaleria = new Regaleria(Integer.parseInt(strArr[0]), strArr[1], strArr[2], Double.parseDouble(strArr[3]), Integer.parseInt(strArr[4]), strArr[5]);
+					}
+					catch(Exception e) {
+					}
+					contenido = lectura.readLine();
+				}
+				lectura.close();			
+			}
+			catch (FileNotFoundException error)
+			{
+				System.out.println(error.getMessage());
+			}
+			catch (IOException error)
+			{
+				System.out.println(error.getMessage());
+			}		
+		}
 		
 }
