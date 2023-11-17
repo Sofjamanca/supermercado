@@ -12,6 +12,7 @@ import java.util.*;
 public class Personal {
 	public static List<Personal> listaPersonal = new ArrayList<>();
 	public static HashMap<Integer, String> diccionarioPersonal = new HashMap<>();
+	
 	private String nombre;
 	private String apellido;
 	private String legajo;
@@ -111,7 +112,7 @@ public class Personal {
 		catch(Exception e) {
 			return null;
 		}
-        }
+    }
    
       public static Personal obtenerDatosPorLegajo(String legajo) {
           Personal encontrado = null;  
@@ -163,6 +164,11 @@ public class Personal {
       
   	public static void mostrarPersonal()
   	{
+		if(listaPersonal.size() == 0)
+		{
+			System.out.println("No existen datos");
+			return;
+		}
   		for(Personal elemento : listaPersonal)
   		{
   			elemento.mostrar();

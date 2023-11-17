@@ -1,5 +1,6 @@
 package Ejercicios;
 import Ejercicios.Funciones;
+
 import java.util.*;
 public class Menu {
 
@@ -39,9 +40,8 @@ public class Menu {
         		exit = true;
         		break;
         }
-        
-		}
-		}
+	}
+}
 	
 	
 	public static void opcionesLacteo()
@@ -86,8 +86,8 @@ public class Menu {
         	exit = true;
         	break;     	
         } 
-		}
-		}
+	}
+}
 		
 		
 		

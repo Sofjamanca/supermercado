@@ -13,7 +13,7 @@ import Ejercicios.Funciones;
 
 public class Lacteo extends Producto implements Fecha {
 	
-	 private static Queue<Lacteo> colaLacteos = new LinkedList<>();
+	private static Queue<Lacteo> colaLacteos = new LinkedList<>();
 	
 	private LocalDate fechaFabricacion;
 	private LocalDate fechaVencimiento;
@@ -30,7 +30,7 @@ public class Lacteo extends Producto implements Fecha {
 		colaLacteos.add(this);
 	}
 
-	//crear un objeto y lo almaceno en la lista y cola
+	//crear un objeto y lo almaceno en la lista y cola, y agrega a archivo
 	 public static void agregarLacteo(int codigoBarra, String marca, String descripcion, double precio, int stock,
 			LocalDate fechaFabricacion, LocalDate fechaVencimiento) {
 		 	String contenido = "";
@@ -109,7 +109,7 @@ public class Lacteo extends Producto implements Fecha {
 		}
 
 	public String mostrarFechasFormateadas(LocalDate date) {
-		String format="0";
+		String format= "0";
 		DateTimeFormatter fechaFormateada = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		format = date.format(fechaFormateada);
 		return format;

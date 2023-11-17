@@ -18,7 +18,8 @@ public class Regaleria extends Producto {
 			this.materialFabricacion = materialFabricacion;
 			setNombreCategoria(Categorias.REGALERIA);
 			setCodigoCategoria(Categorias.REGALERIA.getNumInterno());
-			//agrego el producto a la pila
+			
+			//agrego el producto a la pila 
 			pilaNovedades.push(this);
 		}
 		

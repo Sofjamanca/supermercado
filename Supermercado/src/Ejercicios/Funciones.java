@@ -7,7 +7,7 @@ public class Funciones {
         try {
             num = Integer.parseInt(cadena);
             return num;
-        } 
+        }  
         catch (NumberFormatException error) {
             return -1;
         }
@@ -106,7 +106,7 @@ public class Funciones {
 	         return false;
 	     }
 	}
-	 
+	
 	
 	public static LocalDate entradaFechas(LocalDate fechaInicio, LocalDate fechaFin)
 	{

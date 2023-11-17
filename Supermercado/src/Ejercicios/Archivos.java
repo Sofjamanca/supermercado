@@ -23,7 +23,7 @@ public class Archivos {
 			System.out.println(error.getMessage());
 		}
 	}
-	}
+	} 
 	
 	public static void escribirArchivo(String ruta, String contenido)
 	{
@@ -45,12 +45,11 @@ public class Archivos {
 		}
 	}
 	
-	public static void copyContent(File a, File b)
+	public static void copyContent(File a, File b) //copiar contenido de un archivo a otro
     { 
 		try {
 			 FileInputStream in = new FileInputStream(a); 
-		        FileOutputStream out = new FileOutputStream(b); 
-		  
+		        FileOutputStream out = new FileOutputStream(b);   
 		            int n;	  
 		            while ((n = in.read()) != -1) { 
 		                out.write(n); 

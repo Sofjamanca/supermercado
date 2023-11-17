@@ -16,6 +16,7 @@ public abstract class Producto {
 	private int stock;
 	private String nombreArchivo;
 	
+	
 	public Producto(int codigoBarra, String marca, String descripcion, double precio, int stock, String nombreArchivo)
 	{
 		this.codigoBarra = codigoBarra;
@@ -111,7 +112,7 @@ public abstract class Producto {
 	
 	public static int entradaCodBarra(Categorias tipo)
 	{
-		boolean validCod = false;int codigoBarra = 0;
+		boolean validCod = false; int codigoBarra = 0;
 		Producto producto;
 		while(validCod == false)
 		{
@@ -157,7 +158,7 @@ public abstract class Producto {
 			}
 		}
 		return max;
-	}
+	} 
 	
 	public static int cantProductos(Categorias tipo)
 	{
@@ -196,6 +197,11 @@ public abstract class Producto {
 	
 	public static void mostrarProductos()
 	{
+		if(listaProductos.size() == 0)
+		{
+			System.out.println("No existen productos");
+			return;
+		}
 		for(Producto elemento : listaProductos)
 		{
 			elemento.mostrar();
